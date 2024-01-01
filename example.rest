@@ -1,7 +1,52 @@
-POST http://localhost:3000/books/ HTTP/1.1
-content-type: application/json
+
+
+@host = http://localhost:3000
+@content_type = application/json
+
+### 
+
+
+# @name create
+POST {{host}}/books/ HTTP/1.1
+Content-Type: {{content_type}}
 
 {
     "title": "sample",
     "author": "ppvan"
 }
+###
+
+# @name get
+GET http://localhost:3000/books/ HTTP/1.1
+
+
+###
+
+# @name get_one
+
+@id = 659297a61283901b8cb5705d
+GET {{host}}/books/{{id}}
+
+
+### 
+
+
+# @name update_one
+
+@id = 659297bf1283901b8cb57062
+PUT {{host}}/books/{{id}}
+Content-Type: {{content_type}}
+
+{
+    "title": "One shot 123",
+    "author": "Aqua"
+}
+
+### 
+
+# @name delete_one
+
+@id = 659297a61283901b8cb5705d
+DELETE {{host}}/books/{{id}}
+
+### 
