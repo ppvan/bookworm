@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { ZodError } from "zod"
-import { fromZodError } from "zod-validation-error"
 
 export class HttpException extends Error {
     public status: number
@@ -41,8 +40,6 @@ function zodValidationHandler(
     next: NextFunction
 ) {
     if (err instanceof ZodError) {
-        const validationError = fromZodError(err as ZodError)
-
         response.status(StatusCodes.BAD_REQUEST).json({
             message: "JSON input validation error.",
             errors: err.flatten().fieldErrors,

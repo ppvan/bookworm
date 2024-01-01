@@ -1,7 +1,5 @@
 import express, { Request, Response } from "express"
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
-import { ZodError } from "zod"
-import { fromZodError } from "zod-validation-error"
 import { BookCreateSchema } from "../schemas/book-schema"
 import {
     createBook,
@@ -27,17 +25,13 @@ bookRouter.get(
 bookRouter.post(
     "/",
     asyncWrapper(async (req: Request, res: Response) => {
-        try {
-            const payload = BookCreateSchema.parse(req.body)
-            const created = await createBook(payload)
+        const payload = BookCreateSchema.parse(req.body)
+        const created = await createBook(payload)
 
-            res.json({ book: created })
-        } catch (err) {
-            const validationError = fromZodError(err as ZodError)
-
-            res.status(400)
-            res.json(validationError)
-        }
+        res.status(StatusCodes.CREATED).json({
+            message: ReasonPhrases.CREATED,
+            data: created,
+        })
     })
 )
 
@@ -46,7 +40,10 @@ bookRouter.get(
     asyncWrapper(async (req: Request, res: Response) => {
         const id: string = req.params.id
         const book = await readBook(id)
-        res.json(book)
+        res.status(200).json({
+            message: ReasonPhrases.OK,
+            data: book,
+        })
     })
 )
 
