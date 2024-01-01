@@ -1,14 +1,14 @@
 import express, { Request, Response } from "express";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
-import { BookCreateSchema } from "../schemas/bookschema";
+import { BookCreateSchema } from "../schemas/book-schema";
 import {
   createBook,
   deleteBook,
   readBook,
   readBooks,
   updateBook,
-} from "../services/bookservice";
+} from "../services/book-service";
 
 const bookRouter = express.Router();
 

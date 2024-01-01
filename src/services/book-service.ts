@@ -1,5 +1,5 @@
 import { Book } from "../models/Book";
-import { BookCreate } from "../schemas/bookschema";
+import { BookCreate } from "../schemas/book-schema";
 
 async function createBook(book: BookCreate) {
   const db_book = new Book(book);
