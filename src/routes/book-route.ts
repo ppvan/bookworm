@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express"
+import { ReasonPhrases, StatusCodes } from "http-status-codes"
 import { ZodError } from "zod"
 import { fromZodError } from "zod-validation-error"
 import { BookCreateSchema } from "../schemas/book-schema"
@@ -56,7 +57,10 @@ bookRouter.put(
         const payload = BookCreateSchema.parse(req.body)
         const updated = await updateBook(id, payload)
 
-        res.json(updated)
+        res.status(StatusCodes.OK).json({
+            message: ReasonPhrases.OK,
+            data: updated,
+        })
     })
 )
 
@@ -64,10 +68,12 @@ bookRouter.delete(
     "/:id",
     asyncWrapper(async (req: Request, res: Response) => {
         const id = req.params.id
-
         const book = await deleteBook(id)
 
-        res.json({ book: book })
+        res.status(StatusCodes.OK).json({
+            message: ReasonPhrases.OK,
+            data: book,
+        })
     })
 )
 

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import { StatusCodes } from "http-status-codes"
 import { ZodError } from "zod"
 import { fromZodError } from "zod-validation-error"
 
@@ -27,9 +28,8 @@ function globalErrorHandler(
     }
 
     response.status(errStatus).json({
-        success: false,
-        status: errStatus,
         message: errMessage,
+        errors: [],
         stack: [],
     })
 }
@@ -43,7 +43,10 @@ function zodValidationHandler(
     if (err instanceof ZodError) {
         const validationError = fromZodError(err as ZodError)
 
-        response.status(400).json(validationError)
+        response.status(StatusCodes.BAD_REQUEST).json({
+            message: "JSON input validation error.",
+            errors: err.flatten().fieldErrors,
+        })
     } else {
         next(err)
     }
