@@ -9,7 +9,7 @@ POST {{host}}/books/ HTTP/1.1
 Content-Type: {{content_type}}
 
 {
-    "title": "sample",
+    "title1": "sample",
     "author": "ppvan"
 }
 ###
@@ -31,13 +31,13 @@ GET {{host}}/books/{{id}}
 
 # @name update_one
 
-@id = 659297bf1283901b8cb57062
+@id = 659297be1283901b8cb57060
 PUT {{host}}/books/{{id}}
 Content-Type: {{content_type}}
 
 {
-    "title": "One shot 123",
-    "author": "Aqua"
+    "titlae": "One shot 123",
+    "authoar": "Aqua"
 }
 
 ### 

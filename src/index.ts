@@ -1,7 +1,11 @@
 import express, { Express } from "express"
 
 import mongoose from "mongoose"
-import { errorHandler } from "./middlewares/error"
+import {
+    globalErrorHandler,
+    notFoundHandler,
+    zodValidationHandler,
+} from "./middlewares/error-handler"
 import { logRequest } from "./middlewares/log-request"
 import bookRouter from "./routes/book-route"
 
@@ -16,7 +20,10 @@ async function main() {
 
     app.use("/books", bookRouter)
 
-    app.use(errorHandler)
+    app.use("*", notFoundHandler)
+
+    app.use(zodValidationHandler)
+    app.use(globalErrorHandler)
 
     app.listen(port, () => {
         console.log(`Server listen on port: ${port}`)

@@ -1,65 +1,74 @@
-import express, { Request, Response } from "express";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
-import { BookCreateSchema } from "../schemas/book-schema";
+import express, { Request, Response } from "express"
+import { ZodError } from "zod"
+import { fromZodError } from "zod-validation-error"
+import { BookCreateSchema } from "../schemas/book-schema"
 import {
-  createBook,
-  deleteBook,
-  readBook,
-  readBooks,
-  updateBook,
-} from "../services/book-service";
+    createBook,
+    deleteBook,
+    readBook,
+    readBooks,
+    updateBook,
+} from "../services/book-service"
 
-const bookRouter = express.Router();
+import { asyncWrapper } from "../utils/async-handler"
 
-bookRouter.get("/", async (req: Request, res: Response) => {
-  const books = await readBooks();
+const bookRouter = express.Router()
 
-  res.json({ books: books });
-});
+bookRouter.get(
+    "/",
+    asyncWrapper(async (req: Request, res: Response) => {
+        const books = await readBooks()
 
-bookRouter.post("/", async (req: Request, res: Response) => {
-  try {
-    const payload = BookCreateSchema.parse(req.body);
-    const created = await createBook(payload);
+        res.json({ books: books })
+    })
+)
 
-    res.json({ book: created });
-  } catch (err) {
-    const validationError = fromZodError(err as ZodError);
+bookRouter.post(
+    "/",
+    asyncWrapper(async (req: Request, res: Response) => {
+        try {
+            const payload = BookCreateSchema.parse(req.body)
+            const created = await createBook(payload)
 
-    res.status(400);
-    res.json(validationError);
-  }
-});
+            res.json({ book: created })
+        } catch (err) {
+            const validationError = fromZodError(err as ZodError)
 
-bookRouter.get("/:id", async (req: Request, res: Response) => {
-  const id: string = req.params.id;
-  const book = await readBook(id);
+            res.status(400)
+            res.json(validationError)
+        }
+    })
+)
 
-  res.json(book);
-});
+bookRouter.get(
+    "/:id",
+    asyncWrapper(async (req: Request, res: Response) => {
+        const id: string = req.params.id
+        const book = await readBook(id)
+        res.json(book)
+    })
+)
 
-bookRouter.put("/:id", async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const payload = BookCreateSchema.parse(req.body);
-    const updated = await updateBook(id, payload);
+bookRouter.put(
+    "/:id",
+    asyncWrapper(async (req: Request, res: Response) => {
+        const id = req.params.id
+        const payload = BookCreateSchema.parse(req.body)
+        const updated = await updateBook(id, payload)
 
-    res.json(updated);
-  } catch (err) {
-    const validationError = fromZodError(err as ZodError);
+        res.json(updated)
+    })
+)
 
-    res.status(400);
-    res.json(validationError);
-  }
-});
+bookRouter.delete(
+    "/:id",
+    asyncWrapper(async (req: Request, res: Response) => {
+        const id = req.params.id
 
-bookRouter.delete("/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
+        const book = await deleteBook(id)
 
-  const book = await deleteBook(id);
+        res.json({ book: book })
+    })
+)
 
-  res.json({ book: book });
-});
-
-export default bookRouter;
+export default bookRouter
