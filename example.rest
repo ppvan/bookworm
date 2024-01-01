@@ -1,2 +1,7 @@
-GET http://localhost:3000/books/
+POST http://localhost:3000/books/ HTTP/1.1
+content-type: application/json
 
+{
+    "title": "sample",
+    "author": "ppvan"
+}
