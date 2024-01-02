@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express"
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
-import { BookCreateSchema } from "../schemas/book-schema"
+import { BookSchema } from "../schemas/book-schema"
 import {
     createBook,
     deleteBook,
@@ -25,7 +25,7 @@ bookRouter.get(
 bookRouter.post(
     "/",
     asyncWrapper(async (req: Request, res: Response) => {
-        const payload = BookCreateSchema.parse(req.body)
+        const payload = BookSchema.parse(req.body)
         const created = await createBook(payload)
 
         res.status(StatusCodes.CREATED).json({
@@ -51,7 +51,7 @@ bookRouter.put(
     "/:id",
     asyncWrapper(async (req: Request, res: Response) => {
         const id = req.params.id
-        const payload = BookCreateSchema.parse(req.body)
+        const payload = BookSchema.parse(req.body)
         const updated = await updateBook(id, payload)
 
         res.status(StatusCodes.OK).json({

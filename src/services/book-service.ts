@@ -1,30 +1,31 @@
-import { Book } from "../models/Book";
-import { BookCreate } from "../schemas/book-schema";
+import z from "zod"
+import { Book } from "../models/Book"
+import { BookSchema } from "../schemas/book-schema"
 
-async function createBook(book: BookCreate) {
-  const db_book = new Book(book);
-  db_book.save();
+async function createBook(book: z.infer<typeof BookSchema>) {
+    const db_book = new Book(book)
+    db_book.save()
 
-  return book;
+    return book
 }
 
 async function readBook(id: string) {
-  return Book.findById(id);
+    return Book.findById(id)
 }
 
-async function updateBook(id: string, book: BookCreate) {
-  return Book.findByIdAndUpdate(id, book, { new: true });
+async function updateBook(id: string, book: z.infer<typeof BookSchema>) {
+    return Book.findByIdAndUpdate(id, book, { new: true })
 }
 
 async function deleteBook(id: string) {
-  const res = Book.findByIdAndDelete(id);
-  return res;
+    const res = Book.findByIdAndDelete(id)
+    return res
 }
 
 async function readBooks() {
-  const books = Book.find();
+    const books = Book.find()
 
-  return books;
+    return books
 }
 
-export { createBook, deleteBook, readBook, readBooks, updateBook };
+export { createBook, deleteBook, readBook, readBooks, updateBook }
