@@ -1,5 +1,5 @@
-// import test from "node:test"
+import { sum } from "../utils/sample"
 
 test("two plus two is four", () => {
-    expect(2 + 2).toBe(4)
+    expect(sum(2, 2)).toBe(4)
 })

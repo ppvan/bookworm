@@ -4,6 +4,7 @@
   "description": "simple crud book",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "npx tsx watch src/",
     "build": "npx tsc --outDir dist",
