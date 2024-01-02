@@ -1,6 +1,8 @@
 import express, { Express } from "express"
 
+import "dotenv/config"
 import mongoose from "mongoose"
+
 import {
     globalErrorHandler,
     notFoundHandler,
@@ -10,11 +12,17 @@ import { logRequest } from "./middlewares/log-request"
 import bookRouter from "./routes/book-route"
 
 async function main() {
-    const connectionString = "mongodb://127.0.0.1:27017/bookworn"
-    await mongoose.connect(connectionString)
+    const connectionString =
+        process.env.DB_URL ?? "mongodb://127.0.0.1:27017/bookworn"
+    const timeout = parseInt(process.env.DB_TIMEOUT_MS ?? "5000")
+
+    const port = parseInt(process.env.PORT ?? "8000")
+
+    await mongoose.connect(connectionString, {
+        serverSelectionTimeoutMS: timeout,
+    })
 
     const app: Express = express()
-    const port = 3000
     app.use(express.json())
     app.use(logRequest)
 
