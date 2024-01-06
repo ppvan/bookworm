@@ -3,10 +3,13 @@
         "target": "es2016",
         "module": "ES6",
         "moduleResolution": "Node10",
+        "noImplicitAny": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
         "outDir": "./dist/"
-    }
+    },
+
+    "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from "zod";
 
 const BookSchema = z.object({
     title: z.string({
@@ -7,6 +7,6 @@ const BookSchema = z.object({
     author: z.string({
         required_error: "Tác giả không được bỏ trống",
     }),
-})
+});
 
-export { BookSchema }
+export { BookSchema };

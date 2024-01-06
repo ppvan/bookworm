@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
 const bookSchema = new Schema(
     {
@@ -14,6 +14,6 @@ const bookSchema = new Schema(
         pages: Number,
     },
     { timestamps: true }
-)
+);
 
-export const Book = mongoose.model("Book", bookSchema)
+export const Book = mongoose.model("Book", bookSchema);

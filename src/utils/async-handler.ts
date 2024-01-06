@@ -1,4 +1,4 @@
-import { NextFunction, Request, RequestHandler, Response } from "express"
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 //
 /**
@@ -11,6 +11,6 @@ import { NextFunction, Request, RequestHandler, Response } from "express"
  */
 export function asyncWrapper(func: RequestHandler) {
     return function (req: Request, res: Response, next: NextFunction) {
-        Promise.resolve(func(req, res, next)).catch(next)
-    }
+        Promise.resolve(func(req, res, next)).catch(next);
+    };
 }

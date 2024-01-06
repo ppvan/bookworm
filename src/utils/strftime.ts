@@ -11,17 +11,17 @@
 
 function strftime(sFormat: string, date?: Date): string {
     if (typeof sFormat !== "string") {
-        return ""
+        return "";
     }
 
-    let safeDate = date ? date : new Date()
+    let safeDate = date ? date : new Date();
 
-    const nDay: number = safeDate.getDay()
-    const nDate: number = safeDate.getDate()
-    const nMonth: number = safeDate.getMonth()
-    const nYear: number = safeDate.getFullYear()
-    const nHour: number = safeDate.getHours()
-    const nTime: number = safeDate.getTime()
+    const nDay: number = safeDate.getDay();
+    const nDate: number = safeDate.getDate();
+    const nMonth: number = safeDate.getMonth();
+    const nYear: number = safeDate.getFullYear();
+    const nHour: number = safeDate.getHours();
+    const nTime: number = safeDate.getTime();
     const aDays: string[] = [
         "Sunday",
         "Monday",
@@ -30,7 +30,7 @@ function strftime(sFormat: string, date?: Date): string {
         "Thursday",
         "Friday",
         "Saturday",
-    ]
+    ];
     const aMonths: string[] = [
         "January",
         "February",
@@ -44,19 +44,19 @@ function strftime(sFormat: string, date?: Date): string {
         "October",
         "November",
         "December",
-    ]
+    ];
     const aDayCount: number[] = [
         0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334,
-    ]
+    ];
     const isLeapYear: () => boolean = () =>
-        (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0
+        (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
     const getThursday: () => Date = () => {
-        const target: Date = new Date(safeDate)
-        target.setDate(nDate - ((nDay + 6) % 7) + 3)
-        return target
-    }
+        const target: Date = new Date(safeDate);
+        target.setDate(nDate - ((nDay + 6) % 7) + 3);
+        return target;
+    };
     const zeroPad: (nNum: number, nPad: number) => string = (nNum, nPad) =>
-        (Math.pow(10, nPad) + nNum + "").slice(1)
+        (Math.pow(10, nPad) + nNum + "").slice(1);
 
     return sFormat.replace(/%[a-z]+\b/gi, (sMatch) => {
         return (
@@ -93,19 +93,19 @@ function strftime(sFormat: string, date?: Date): string {
                 "%S": zeroPad(safeDate.getSeconds(), 2),
                 "%u": nDay || 7,
                 "%V": (() => {
-                    const target: Date = getThursday()
-                    const n1stThu: number = target.valueOf()
-                    target.setMonth(0, 1)
-                    const nJan1: number = target.getDay()
+                    const target: Date = getThursday();
+                    const n1stThu: number = target.valueOf();
+                    target.setMonth(0, 1);
+                    const nJan1: number = target.getDay();
 
                     if (nJan1 !== 4) {
-                        target.setMonth(0, 1 + ((4 - nJan1 + 7) % 7))
+                        target.setMonth(0, 1 + ((4 - nJan1 + 7) % 7));
                     }
 
                     return zeroPad(
                         1 + Math.ceil((n1stThu - target.valueOf()) / 604800000),
                         2
-                    )
+                    );
                 })(),
                 "%w": nDay,
                 "%x": safeDate.toLocaleDateString(),
@@ -120,8 +120,8 @@ function strftime(sFormat: string, date?: Date): string {
                     .formatToParts(date)
                     .find((oPart) => oPart.type === "timeZoneName")?.value,
             }[sMatch] || "") + "" || sMatch
-        )
-    })
+        );
+    });
 }
 
-export default strftime
+export default strftime;
