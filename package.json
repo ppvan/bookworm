@@ -4,10 +4,10 @@
     "description": "simple crud book",
     "main": "index.js",
     "license": "MIT",
-    "type": "module",
     "scripts": {
-        "dev": "npx tsx watch src/",
-        "build": "npx tsc --outDir dist",
+        "format": "prettier . --write",
+        "dev": "tsx watch src/",
+        "build": "tsc --outDir dist",
         "start": "node dist/index.js",
         "test": "mocha"
     },

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es2016",
-        "module": "ES6",
+        "module": "CommonJS",
         "moduleResolution": "Node10",
         "noImplicitAny": true,
         "esModuleInterop": true,
