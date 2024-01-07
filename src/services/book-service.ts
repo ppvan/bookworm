@@ -4,7 +4,7 @@ import { BookSchema } from "../schemas/book-schema";
 
 async function createBook(book: z.infer<typeof BookSchema>) {
     const db_book = new Book(book);
-    db_book.save();
+    await db_book.save();
 
     return book;
 }
@@ -14,16 +14,16 @@ async function readBook(id: string) {
 }
 
 async function updateBook(id: string, book: z.infer<typeof BookSchema>) {
-    return Book.findByIdAndUpdate(id, book, { new: true });
+    return await Book.findByIdAndUpdate(id, book, { new: true });
 }
 
 async function deleteBook(id: string) {
-    const res = Book.findByIdAndDelete(id);
+    const res = await Book.findByIdAndDelete(id);
     return res;
 }
 
 async function readBooks() {
-    const books = Book.find();
+    const books = await Book.find();
 
     return books;
 }
