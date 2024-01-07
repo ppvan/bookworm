@@ -1,12 +1,25 @@
 import { assert } from "chai";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { Book } from "../models/Book";
 import { createBook, deleteBook, updateBook } from "../services/book-service";
 
 describe("Book Model", function () {
+    let mongod: MongoMemoryServer | null = null;
+    before(async function () {
+        mongod = await MongoMemoryServer.create();
+        const uri = mongod.getUri();
+        process.env.MONGO_URL = uri;
+    });
+
+    after(async function () {
+        mongod?.stop();
+    });
+
     describe("Mongoose should connect and disconnect normal", function () {
         it("Connect", async function () {
-            await mongoose.connect("mongodb://127.0.0.1:27017/bookworn-test", {
+            await mongoose.connect(process.env.MONGO_URL ?? "", {
+                dbName: "bookworn-test",
                 serverSelectionTimeoutMS: 1000,
             });
         });
@@ -18,8 +31,9 @@ describe("Book Model", function () {
 
     describe("Book CRUD", function () {
         before(async function () {
-            await mongoose.connect("mongodb://127.0.0.1:27017/bookworn-test", {
+            await mongoose.connect(process.env.MONGO_URL ?? "", {
                 serverSelectionTimeoutMS: 1000,
+                dbName: "bookworn-test",
             });
 
             await mongoose.connection.db.dropDatabase();
