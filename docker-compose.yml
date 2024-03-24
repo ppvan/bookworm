@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  bookworm:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    environment:
+      - DB_TIMEOUT_MS=3000
+      - DB_URL=mongodb://mongo-dev:27017/bookworn
+
+    networks:
+      - dev-networks
+  
+  mongo:
+    image: mongo:7.0
+    command: mongod --quiet --logpath /dev/null
+    restart: always
+    container_name: mongo-dev
+    networks:
+      - dev-networks
+    volumes:
+      - ./data/mongo:/data/db
+    ports:
+      - "27017:27017"
+
+networks:
+  dev-networks:
+    driver: bridge

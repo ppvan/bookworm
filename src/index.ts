@@ -18,6 +18,9 @@ async function main() {
 
     const port = parseInt(process.env.PORT ?? "8000");
 
+    console.log(`connstring = ${connectionString}, timeout = ${timeout}, port = ${port}`);
+
+
     await mongoose.connect(connectionString, {
         serverSelectionTimeoutMS: timeout,
     });
